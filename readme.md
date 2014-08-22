@@ -21,9 +21,10 @@ Installation
 ======
 
 1. Place all files and folders to the directory of your choice
-2. Create a `keys.yaml` file to store your keys (See section on .YAML Configuration for specifics)
-3. Create a configuration .yaml file to store resource lookup information (See section .YAML Configuration as well)
-4. *Optional* Edit any constants inside `aws_funcs.php` if needed.  Currently, the available ones on AWS is listed which can change in the future.  See section on __aws_funcs Headers__ for more info  
+2. Place PHP AWS SDK `vendor` folder to one level above the bmgr folder. for example: the autoloading is accessed by `../vendor/autoload.php`  
+3. Create a `keys.yaml` file to store your keys (See section on .YAML Configuration for specifics)
+4. Create a configuration .yaml file to store resource lookup information (See section .YAML Configuration as well)
+5. *Optional* Edit any constants inside `aws_funcs.php` if needed.  Currently, the available ones on AWS is listed which can change in the future.  See section on __aws_funcs Headers__ for more info  
 
 .YAML Settings
 ======
@@ -114,21 +115,21 @@ Since there is no easy way to retrieve these constants from Amazon, it's useful 
 
 DNS Switching
 ======
-The Beanstalk manager allows you to switch DNS between certain environments easily.  The DNS Switching is enabled when the `DNS` field is filled in the yaml file.  It can be accessed with the shuffle icon button beside each custom application.  The DNS Switcher accesses the Amazon route53 host and changes the respective zone id to the new beanstalk.  This feature is important for individuals and businesses looking for fast ways to deploy new code on their website while still retaining an older revision incase of errors.  In each refresh of the index page, BMGR would create a checkmark (on the left tree nav) beside the current live environment that the DNS specified is pointing to.  
+The Beanstalk manager allows you to easily switch DNS between certain environments.  The DNS Switcher is enabled when the `DNS` field is filled in the yaml configuration file.  The switcher can be accessed with the shuffle icon button beside each custom application.  The DNS Switcher accesses the Amazon route53 host and changes the respective zone ids to the new beanstalk.  This feature is important for individuals and businesses looking for fast ways to deploy new code on an new instance while still retaining an older revision incase of errors or as a fallback.  On each refresh of the index page, BMGR would create a checkmark (on the left tree nav) beside the current live environment that the DNS specified is pointing to.  
 
 Beanstalk Pause/Play Functionality
 ======
-The beanstalk pause play functionality can be accessed from the beanstalk detail page.  Currently, this feature is not supported by Amazon console and requires the SDK or CLI to perform this feature.  The pause button effectively reduces the number of instances allowed in the autoscaling group to zero and thus the environment is paused.  This feature is useful in reducing cost for terminating unused EC2 computations while still retaining settings and configurations of a beanstalk.  The play button should retain the original Minimum and maximum instances that the AutoScaling Group had when used to resume the beanstalk.  
+The beanstalk pause play functionality can be accessed from the beanstalk detail page.  Currently, this feature is not supported by Amazon console and requires the SDK or CLI to perform this feature.  The pause button effectively reduces the number of instances allowed in the autoscaling group to zero and thus the environment is paused.  This feature is useful in reducing cost by terminating unused EC2 computations while still retaining settings and configurations of a beanstalk.  The play button holds the original Minimum and maximum instances that the AutoScaling Group is configured to.  
 
 Beanstalk Cloning
 ======
-The beanstalk Clone feature can clone a beanstalk almost identically.  This feature is ideal for individuals and businesses looking to deploy their code efficiently on more than one environment whether to further modify the code, analyze components or create a stable version for later use.  The cloner has an option to tag the beanstalk environment, a feature that was rolled out in the april AWS update.  You can specify mandatory tags in the .yaml config file under `cloner_mandatory_tags`.  
+The beanstalk Clone feature can clone a beanstalk almost identically.  This feature is ideal for individuals and businesses looking to deploy their code efficiently on more than one environment whether that is to further modify the code, debug/analyze components or create a stable version for later use.  The cloner has an option to tag the beanstalk environment, a feature that was rolled out in the april AWS update.  You can specify mandatory tags in the .yaml config file under `cloner_mandatory_tags`.  
 
 There are a few important aspects of the cloner to note for:  
 
 * AppSource, or the hosted code, will not contain the old deployed code when cloned.  This is to ensure that there are no interference with the storage and access of the parent beanstalk.  The new deployed code will be a sample app.  
-* Security Groups are auto generated if one is not specified when creating a beanstalk.  Since Security groups have to be unique, the auto generated security groups parameter will not be passed to the cloner.  The developer can either fill in his/her own group or leave it empty for AWS to auto-generate.
-* Beanstalk name isn't passed along to the cloner.  The developer will need to specify
+* Amazon auto-generates security groups when creating a beanstalk without a predefined security group.  The cloner will identify this and the auto generated security groups parameter will not be passed along.  The developer can either fill in his/her own group or leave it empty for AWS to auto-generate.  
+* Beanstalk name isn't passed along to the cloner.  The developer will need to specify this  
 * The list of available beanstalk platforms is automatically retrieved from AWS.  On the chance that the parent beanstalk (the one to be cloned) runs a platform no longer on the AWS list, a message will appear to warn of this and the developer will have to specify a platform from the available list dropdown.
 
 

@@ -22,9 +22,10 @@ Installation
 
 1. Place all files and folders to the directory of your choice
 2. Place PHP AWS SDK `vendor` folder to one level above the bmgr folder. for example: the autoloading is accessed by `../vendor/autoload.php`  
-3. Create a `keys.yaml` file to store your keys (See section on .YAML Configuration for specifics)
-4. Create a configuration .yaml file to store resource lookup information (See section .YAML Configuration as well)
-5. *Optional* Edit any constants inside `aws_funcs.php` if needed.  Currently, the available ones on AWS is listed which can change in the future.  See section on __aws_funcs Headers__ for more info  
+3. Create an empty folder named `beanbasket` in the root bmgr folder.  This folder will contain all cache of instances.
+4. Create a `keys.yaml` file to store your keys (See section on .YAML Configuration for specifics)
+5. Create a configuration .yaml file to store resource lookup information (See section .YAML Configuration as well)
+6. *Optional* Edit any constants inside `aws_funcs.php` if needed.  Currently, the available ones on AWS is listed which can change in the future.  See section on __aws_funcs Headers__ for more info  
 
 .YAML Settings
 ======
